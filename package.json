@@ -1,7 +1,7 @@
 {
   "name": "nodejs-pitr",
   "version": "1.0.0",
-  "main": "function1.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,8 @@
   "keywords": [],
   "description": "",
   "dependencies": {
-    "nodemon": "^2.0.15"
+    "aws-sdk": "^2.1045.0",
+    "nodemon": "^2.0.15",
+    "process": "^0.11.10"
   }
 }
