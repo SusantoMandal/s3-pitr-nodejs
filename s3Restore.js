@@ -11,7 +11,7 @@ async function restoreObject(bucket, key, versionId) {
             Key: key,
         };
         const data = await s3.copyObject(params).promise();
-        console.log(data);
+        console.log("restore- ", key);
     } catch (e) {
         throw new Error(`Could not restore file from S3: ${e.message}`)
     }
@@ -24,7 +24,7 @@ async function deleteObject(bucket, key) {
             Key: key,
         };
         const data = await s3.deleteObject(params).promise();
-        console.log(data);
+        console.log("deleted- ", key);
     } catch (e) {
         throw new Error(`Could not delete file from S3: ${e.message}`)
     }
