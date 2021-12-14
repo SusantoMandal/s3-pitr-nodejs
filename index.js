@@ -1,21 +1,23 @@
 
-const { getVersion } = require('./function1');
-const { restoreObject, deleteObject } = require('./function2');
-const { getKeys } = require('./function3');
+const { getTimestampVersion } = require('./getTimestampVersion');
+const { restoreObject, deleteObject } = require('./s3Restore');
+const { getKeys } = require('./getFileKeys');
+const argv = require('minimist')(process.argv.slice(2));
 
-const sourceBucket = process.argv[2];
-const folder = process.argv[3];
-const timestamp = process.argv[4];
+const bucket = argv.b;
+const prefix = argv.p;
+const timestamp = new Date(argv.t).toISOString();
 
 (async () => {
-  let allkeys = await getKeys(sourceBucket, folder);
-  console.log('allkeys', allkeys);
-  allkeys.forEach(async (key) => {
-    const version = await getVersion(sourceBucket, key, timestamp);
-    if (version.isDeleted) {
-      await deleteObject(version, sourceBucket);
+  const keys = await getKeys(bucket, prefix);
+  console.log(keys);
+
+  keys.forEach(async (key) => {
+    const versionId = await getTimestampVersion(bucket, key, timestamp);
+    if (versionId === null) {
+      await deleteObject(bucket, key);
     } else {
-      await restoreObject(version, sourceBucket);
+      await restoreObject(bucket, key, versionId);
     }
   }) 
   
