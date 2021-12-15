@@ -18,15 +18,15 @@ Choosing the correct time and date to restore at is as simple as clicking the Ve
 
 clone the repository:
 
-`$ git clone https://github.com/SusantoMandal/s3-pitr-nodejs.git`
+```$ git clone https://github.com/SusantoMandal/s3-pitr-nodejs.git```
 
 Go to the repository: 
 
-`$ cd S3-PITR-NODEJS`
+```$ cd s3-pitr-nodejs```
 
 Run the script:
 
-`$ node index.js -b my-bucket -p folder -t "December 15, 2021, 12:52:34 (UTC+05:30)"`
+```$ node index.js -b my-bucket -p folder -t "December 15, 2021, 12:52:34 (UTC+05:30)"```
 
 ## Requirements
 
