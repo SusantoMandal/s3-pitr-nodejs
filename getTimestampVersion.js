@@ -1,46 +1,42 @@
 const { getVersion } = require("./s3Restore");
 
 async function getTimestampVersion(bucket, prefix, timestamp) {
+
+  const restoreTimestamp = Date.parse(timestamp);
+  let nearestVersion = null;
+  let nearestDeleteMarker = null;
+  let returnObject = {
+    versionId: null,
+    isLatest: null
+  };
+
   const { Versions, DeleteMarkers } = await getVersion(bucket, prefix);
 
-  let latestVersion = null;
-  let isLatest = false;
-
-  Versions.some((version) => {
-    if (Date.parse(timestamp) >= Date.parse(version.LastModified)) {
-      latestVersion = version;
-      isLatest = version.IsLatest;
-      return true;
-    }
+  nearestVersion = Versions.find((version) => {
+    return (Date.parse(version.LastModified) <= restoreTimestamp)
   });
 
-  let flag = false;
-  DeleteMarkers.some((deleteMarker) => {
-    if (
-      Date.parse(timestamp) >= Date.parse(deleteMarker.LastModified) &&
-      Date.parse(latestVersion.LastModified) <
-        Date.parse(deleteMarker.LastModified)
-    ) {
-      flag = true;
-      latestVersion = null;
-      isLatest = deleteMarker.IsLatest;
-      return true;
-    }
+  nearestDeleteMarker = DeleteMarkers.find((deleteMarker) => {
+    return (Date.parse(deleteMarker.LastModified) <= restoreTimestamp)
   });
 
-  if (latestVersion !== null) {
-    return {
-      versionId: latestVersion.VersionId,
-      isLatest: isLatest,
-    };
+  if (nearestVersion) {
+    returnObject = {
+      versionId: nearestVersion.VersionId,
+      isLatest: nearestVersion.IsLatest
+    }
   }
-  if (!flag && DeleteMarkers.length) {
-    isLatest = DeleteMarkers[0].IsLatest;
+
+  if (nearestDeleteMarker) {
+    if (Date.parse(nearestDeleteMarker.LastModified) > Date.parse(nearestVersion.LastModified)) {
+      returnObject = {
+        versionId: null,
+        isLatest: nearestDeleteMarker.IsLatest
+      };
+    }
   }
-  return {
-    versionId: null,
-    isLatest: isLatest,
-  };
+
+  return returnObject;
 }
 
 module.exports = { getTimestampVersion };

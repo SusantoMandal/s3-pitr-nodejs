@@ -10,10 +10,10 @@ async function restoreObject(bucket, key, versionId) {
             CopySource: `${bucket}/${key}?versionId=${versionId}`,
             Key: key,
         };
-        const data = await s3.copyObject(params).promise();
+        await s3.copyObject(params).promise();
         console.log("restore- ", key);
     } catch (e) {
-        throw new Error(`Could not restore file from S3: ${e.message}`)
+        throw new Error(`Could not restore file ${key} from S3: ${e.message}`)
     }
 }
 
@@ -23,10 +23,10 @@ async function deleteObject(bucket, key) {
             Bucket: bucket,
             Key: key,
         };
-        const data = await s3.deleteObject(params).promise();
+        await s3.deleteObject(params).promise();
         console.log("deleted- ", key);
     } catch (e) {
-        throw new Error(`Could not delete file from S3: ${e.message}`)
+        throw new Error(`Could not delete file ${key} from S3: ${e.message}`)
     }
 }
 
@@ -39,7 +39,7 @@ async function getVersion(bucket, prefix) {
         const data = await s3.listObjectVersions(params).promise();
         return data;
     } catch (e) {
-        throw new Error(`Could not retrieve file from S3: ${e.message}`)
+        throw new Error(`Could not retrieve version of ${key} from S3: ${e.message}`)
     }
 };
 
