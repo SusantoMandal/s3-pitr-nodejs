@@ -1,5 +1,9 @@
 const { getVersion } = require("./s3Restore");
 
+function compareDate(date1, date2) {
+  return Date.parse(date2.LastModified) - Date.parse(date1.LastModified);
+};
+
 async function getTimestampVersion(bucket, prefix, timestamp) {
 
   const restoreTimestamp = Date.parse(timestamp);
@@ -10,7 +14,10 @@ async function getTimestampVersion(bucket, prefix, timestamp) {
     isLatest: null
   };
 
-  const { Versions, DeleteMarkers } = await getVersion(bucket, prefix);
+  let { Versions, DeleteMarkers } = await getVersion(bucket, prefix);
+
+  Versions.sort(compareDate);
+  DeleteMarkers.sort(compareDate);
 
   nearestVersion = Versions.find((version) => {
     return (Date.parse(version.LastModified) <= restoreTimestamp)

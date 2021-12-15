@@ -1,6 +1,6 @@
-const { getTimestampVersion } = require('./getTimestampVersion');
-const { restoreObject, deleteObject } = require('./s3Restore');
-const { getKeys } = require('./getFileKeys');
+const { getTimestampVersion } = require('./util/getTimestampVersion');
+const { restoreObject, deleteObject } = require('./util/s3Restore');
+const { getKeys } = require('./util/getFileKeys');
 const argv = require('minimist')(process.argv.slice(2));
 
 const bucket = argv.b;
