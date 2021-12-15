@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "aws-sdk": "^2.1045.0",
+    "minimist": "^1.2.5",
     "nodemon": "^2.0.15"
   }
 }
