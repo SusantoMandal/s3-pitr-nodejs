@@ -1,4 +1,4 @@
-const { getVersion } = require('./s3Restore');
+const { getVersion } = require('../util/s3Methods');
 
 async function getKeys(bucket, prefix) {
     try {

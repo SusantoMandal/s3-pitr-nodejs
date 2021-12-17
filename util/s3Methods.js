@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const logger = require("./logger");
+const logger = require('./logger');
 
 const s3 = new AWS.S3({
 });
@@ -27,7 +27,7 @@ async function deleteObject(bucket, key) {
         await s3.deleteObject(params).promise();
         logger.info("deleted- "+ key);
     } catch (e) {
-        throw new Error(`Could not delete file ${key} from S3: ${e.message}`)
+        throw new Error(`Could not delete file ${key} from S3`)
     }
 }
 
@@ -40,7 +40,7 @@ async function getVersion(bucket, prefix) {
         const data = await s3.listObjectVersions(params).promise();
         return data;
     } catch (e) {
-        throw new Error(`Could not retrieve version of ${key} from S3: ${e.message}`)
+        throw new Error(`Could not retrieve version of ${key} from S3`)
     }
 };
 
