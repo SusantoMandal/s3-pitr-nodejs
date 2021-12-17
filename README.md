@@ -6,7 +6,7 @@ The most common use case for this is when you have enabled versioning on an S3 b
 
 It takes time to do this with the web interface: The Amazon S3 online administration gui does not provide a straightforward method to do this on a massive scale.
 
-With this script, you can simply restore a repository to a specific point in time by executing a simple command such as:
+With this script, you can simply restore a file version at specific point in time by executing a simple command such as:
 
 * To same s3 bucket:-
 	```
@@ -26,6 +26,12 @@ Go to the repository:
 
 ```
 $ cd s3-pitr-nodejs
+```
+
+Install the packages:
+
+```
+$ npm install
 ```
 
 Run the script:
