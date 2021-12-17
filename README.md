@@ -57,11 +57,21 @@ $ node index.js -b my-bucket -p folder -t "December 15, 2021, 12:52:34 (UTC+05:3
 ```
 usage: node index.js [-b BUCKET] [-p PREFIX] [-t TIMESTAMP]
 
-optional arguments:
+required arguments:
   -b BUCKET     s3 bucket to restore from
   -p PREFIX     s3 path to restore from                     
-  -t TIMESTAMP  point in time to restore at
+  -t TIMESTAMP  point in time to restore at  
+
+optional arguments  
+  --dryrun  DRYRUN execute query without restoring files
                         
+```
+##Dryrun
+
+You may use the following command to dry run the script and see all of the files that will be restored:
+
+```
+$ node index.js -b my-bucket -p folder -t "December 15, 2021, 12:52:34 (UTC+05:30)" --dryrun
 ```
 
 

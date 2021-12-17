@@ -1,4 +1,4 @@
-const { getVersion } = require("./s3Restore");
+const { getVersion } = require("../util/s3Methods");
 
 function compareDate(date1, date2) {
   return Date.parse(date2.LastModified) - Date.parse(date1.LastModified);
